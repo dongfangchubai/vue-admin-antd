@@ -78,7 +78,8 @@ const breadcrumbItems = computed(() => {
 watch(
   () => route.path,
   (path) => {
-    document.title = `${String(route.meta.title ?? 'Lumen')} · 管理后台`
+    const { VITE_APP_TITLE } = import.meta.env
+    document.title = `${String(route.meta.title ?? VITE_APP_TITLE)} - ${VITE_APP_TITLE}`
     // 进入系统子页时自动展开对应父菜单
     if (path.startsWith('/system') && !openKeys.value.includes('system')) {
       openKeys.value = [...openKeys.value, 'system']
@@ -104,7 +105,7 @@ async function onLogout() {
 </script>
 
 <template>
-  <a-layout class="admin-layout min-h-dvh">
+  <a-layout class="admin-layout">
     <a-layout-sider
       v-model:collapsed="collapsed"
       collapsible
@@ -114,8 +115,8 @@ async function onLogout() {
       class="admin-sider"
     >
       <div class="brand" :class="{ 'brand--collapsed': collapsed }">
-        <span class="brand__mark">L</span>
-        <span v-if="!collapsed" class="brand__text">Lumen Admin</span>
+        <span class="brand__mark">V</span>
+        <span v-if="!collapsed" class="brand__text">Vue Admin Antd</span>
       </div>
 
       <a-menu
@@ -128,7 +129,7 @@ async function onLogout() {
       />
     </a-layout-sider>
 
-    <a-layout>
+    <a-layout class="admin-main">
       <a-layout-header class="admin-header">
         <div class="admin-header__left">
           <a-button type="text" class="trigger" @click="appStore.toggleCollapsed()">
@@ -165,6 +166,7 @@ async function onLogout() {
 
       <TagsView />
 
+      <!-- 仅内容区滚动，外层页面不出现滚动条 -->
       <a-layout-content class="admin-content">
         <div class="admin-content__inner">
           <!-- include 控制缓存名单；key 变化时强制重建当前页实例 -->
@@ -181,14 +183,21 @@ async function onLogout() {
 
 <style scoped>
 .admin-layout {
+  height: 100%;
+  overflow: hidden;
   background: #f5f7fb;
 }
 
 .admin-sider {
-  position: sticky;
-  top: 0;
-  height: 100dvh;
+  height: 100% !important;
   overflow: auto;
+}
+
+.admin-main {
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .brand {
@@ -200,6 +209,7 @@ async function onLogout() {
   color: #fff;
   overflow: hidden;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .brand--collapsed {
@@ -228,6 +238,7 @@ async function onLogout() {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
   padding: 0 20px;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;
@@ -266,11 +277,14 @@ async function onLogout() {
 }
 
 .admin-content {
+  flex: 1;
+  min-height: 0;
   margin: 16px;
+  overflow: auto;
 }
 
 .admin-content__inner {
-  min-height: calc(100dvh - 64px - 40px - 32px);
+  min-height: 100%;
   padding: 20px;
   background: #fff;
   border-radius: 10px;

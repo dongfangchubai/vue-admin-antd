@@ -188,6 +188,7 @@ watch(contextMenuVisible, (visible) => {
 <style scoped>
 .tags-view {
   position: relative;
+  flex-shrink: 0;
   background: #fff;
   border-bottom: 1px solid #f0f0f0;
   padding: 6px 12px 0;

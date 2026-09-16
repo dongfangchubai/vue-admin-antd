@@ -31,22 +31,25 @@ async function onSubmit() {
 </script>
 
 <template>
-  <div class="relative min-h-dvh overflow-hidden bg-ink text-paper">
-    <div
-      class="animate-drift pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(31,138,138,0.35),transparent_42%),radial-gradient(circle_at_82%_12%,rgba(240,180,41,0.22),transparent_36%),linear-gradient(135deg,#081018_0%,#0d1b27_48%,#132433_100%)]"
-    />
-    <div
-      class="animate-beam pointer-events-none absolute -left-24 top-10 h-[70vh] w-[42vw] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(243,240,232,0.08),transparent)] blur-2xl"
-    />
-    <div
-      class="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(243,240,232,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(243,240,232,0.08)_1px,transparent_1px)] [background-size:56px_56px]"
-    />
+  <!-- overflow-x 必须裁剪：背景动画的位移/缩放不能撑出横向滚动条，否则宽度会随滚动条出现来回跳动 -->
+  <div class="relative h-full overflow-x-hidden overflow-y-auto bg-ink text-paper">
+    <div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+      <div
+        class="animate-drift absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(31,138,138,0.35),transparent_42%),radial-gradient(circle_at_82%_12%,rgba(240,180,41,0.22),transparent_36%),linear-gradient(135deg,#081018_0%,#0d1b27_48%,#132433_100%)]"
+      />
+      <div
+        class="animate-beam absolute -left-24 top-10 h-[70vh] w-[42vw] rotate-12 bg-[linear-gradient(90deg,transparent,rgba(243,240,232,0.08),transparent)] blur-2xl"
+      />
+      <div
+        class="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(243,240,232,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(243,240,232,0.08)_1px,transparent_1px)] [background-size:56px_56px]"
+      />
+    </div>
 
-    <main class="relative z-10 mx-auto grid min-h-dvh max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2 lg:gap-16 lg:px-10">
+    <main class="relative z-10 mx-auto grid min-h-full max-w-6xl items-center gap-10 px-6 py-12 lg:grid-cols-2 lg:gap-16 lg:px-10">
       <section class="animate-rise max-w-xl">
         <p class="mb-5 text-sm tracking-[0.28em] text-mist uppercase">Workspace Access</p>
         <h1 class="font-display text-5xl leading-[0.95] font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
-          LUMEN
+          Vue Admin Antd
         </h1>
         <p class="mt-5 max-w-md text-base leading-relaxed text-mist/90 sm:text-lg">
           进入你的工作台。干净的节奏、稳定的流程，从一次登录开始。

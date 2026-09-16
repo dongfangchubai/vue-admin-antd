@@ -31,6 +31,7 @@ export default defineConfig({
     dedupe: ['vue'],
   },
   server: {
+    port: Number(process.env.VITE_APP_PORT) || 3000,
     fs: {
       // 允许读取 workspace 根目录下的 packages/*
       allow: ['../..'],
